@@ -30,8 +30,100 @@ Difficulty : Medium
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include<malloc.h>
 
-int * find_sequences(int *arr, int len){
-	//Return final array which has 6indexes [AP1_S,AP1_E,AP2_S,AP2_E,GP1_S,GP2_E]
-	return NULL;
+int * find_sequences(int *arr, int len)
+{
+	if (arr == NULL || len < 0)
+		return NULL;
+	int *result;
+	int i = 0, x = 0, y = 0, d, p;
+	int flag1 = 0, flag2 = 0, flag3 = 0;
+	result = (int *)malloc(6 * sizeof(int));
+	for (i = 0; i < len; i++)
+	{
+		x = arr[i];
+		y = arr[i + 1];
+		d = y - x;
+		p = i + 2;
+		while (arr[p] == (y + d) && (p) < len)/*searching for first Arithematic progression*/
+		{
+			if (!flag1)
+			{
+				result[0] = i;/*start index of AP1*/
+				flag1 = 1;
+			}
+			if (flag1)
+			{
+				result[1] = p;/*end index of AP1*/
+			}
+			y = y + d;
+			p++;
+        }
+        i = p;
+
+		x = arr[i];
+		y = arr[i + 1];
+		d = y - x;
+		p = i + 2;
+		while (arr[p] == (y + d) && (p) < len)/*searching for second Arithematic progression*/
+
+		{
+
+			if (!flag2)
+			{
+				result[2] = i;
+				flag2 = 1;
+			}
+			if (flag2)
+			{
+				result[3] = p;/*start index of AP2*/
+			}
+			y = y + d;
+
+			if (p == (len - 1))
+			{
+
+				result[3] = p;/*end index of AP2*/
+
+
+			}
+
+			p++;
+		}
+
+		i = p;
+
+	}
+	for (i = 0; i<len; i++)
+	{
+		x = arr[i];
+		y = arr[i + 1];
+		d = y / x;
+		p = i + 2;
+
+
+		while (arr[p] == (y*d) && (p) < len)/*searching for the geometric progression*/
+		{
+
+			if (!flag3)
+			{
+				result[4] = i;/*start index of GP*/
+				flag3 = 1;
+			}
+			if (flag3)
+			{
+				result[5] = p;/*end index of GP*/
+			}
+			y = y*d;
+			p++;
+
+
+		}
+
+
+	}
+
+
+	return result;
 }
